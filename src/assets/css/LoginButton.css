@@ -1,0 +1,19 @@
+
+.loginButton {
+  width : 70px;
+  height : 34px;
+  line-height: 34px;
+  text-align : center;
+}
+
+.loginButton_disable {
+  width : 70px;
+  height : 34px;
+  line-height: 34px;
+  text-align : center;
+  background : #44474c;
+  color : #27292b;
+}
+.loginButton:hover {
+  background-color: #393a3d;
+}

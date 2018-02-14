@@ -1,0 +1,20 @@
+@import '~antd/dist/antd.css';
+
+#leftMenuContainer {
+  width : 100%;
+  height : 100%;
+  display : flex;
+  flex-direction: column;
+}
+
+.logoWrapper {
+  width : 100%;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.daypickerWrapper{
+  width : 100%;
+  flex-shrink: 0;
+  flex-grow: 0;
+}

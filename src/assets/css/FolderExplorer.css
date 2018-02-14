@@ -1,0 +1,127 @@
+
+.folderList {
+  width : 100%;
+  padding-top : 10px;
+}
+
+.folderItemContainer {
+  width : 100%;
+  display: flex;
+  flex-direction: row;
+  font-size: 12px;
+  padding-left : 10px;
+  padding-top : 2px;
+}
+
+.folderItemContainer:hover {
+  border-right : 4px solid #47b3ef;
+  background : #313338;
+  transition: 0.15s all ease-out;
+}
+
+.folderItemContainer_open {
+  border-right : 8px solid #47b3ef;
+  background : #313338;
+  transition: 0.15s all ease-out;
+}
+
+.folderItemIcon {
+  flex-shrink: 0;
+  flex-grow: 0;
+  height : 25px;
+  line-height: 25px;
+}
+
+.folderItemName {
+  flex-shrink: 1;
+  flex-grow: 1;
+  height : 25px;
+  line-height: 25px;
+  padding-left : 10px;
+}
+
+
+.folderListWrapper {
+  width : 100%;
+  flex-shrink: 1;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top : 10px;
+}
+
+.folderSearch {
+  width : 100%;
+  height : 25px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: row;
+  background: #313338;
+}
+
+.folderSearchField {
+  height : 25px;
+  line-height: 25px;
+  flex-shrink: 1;
+  flex-grow: 1;
+  padding-left : 5px;
+  margin-left : 5px;
+  margin-bottom : 2px;
+  background: #313338;
+  border : 0px;
+  border-bottom: 1px solid #52565e;
+}
+
+.folderSearchIcon {
+  height : 25px;
+  line-height: 25px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-right : 5px;
+}
+
+.folderListContainer {
+  width : 100%;
+  flex-shrink: 1;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.folderBtnBar {
+  height : 24px;
+  line-height: 24px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  background : #313338;
+  padding-left : 5px;
+  display: flex;
+  flex-direction: row;
+}
+
+.folderBtnBarIcon {
+  flex-shrink: 0;
+  flex-grow: 0;
+  width : 24px;
+  height : 24px;
+  line-height: 24px;
+  font-size: 15px;
+}
+
+.folderBtnBarIcon_selected {
+  background-color: #47b3ef
+}
+
+.folderBtnBarIcon:hover {
+  background-color: #47b3ef
+}
+
+.folderItemCheckbox_show {
+  width : 20px;
+}
+
+.folderItemCheckbox_hide {
+  display: none;
+}

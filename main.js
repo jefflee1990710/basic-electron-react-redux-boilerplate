@@ -1,13 +1,16 @@
 'use strict';
 
 // Import parts of electron to use
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, ipcMain, dialog} = require('electron');
 const path = require('path')
 const url = require('url')
+const BackgroundService = require('./libs/BackgroundService');
+const fs = require('fs');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let bgService;
 
 // Keep a reference for dev mode
 let dev = false;
@@ -16,9 +19,13 @@ if ( process.defaultApp || /[\\/]electron-prebuilt[\\/]/.test(process.execPath) 
 }
 
 function createWindow() {
+  prepareAppHome();
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1024, height: 768, show: false
+    width: 1024, height: 768, show: false,
+    'minHeight': 300,
+    'minWidth': 300
   });
 
   // and load the index.html of the app.
@@ -46,6 +53,7 @@ function createWindow() {
     if ( dev ) {
       mainWindow.webContents.openDevTools();
     }
+    bgService = new BackgroundService(mainWindow);
   });
 
   // Emitted when the window is closed.
@@ -78,3 +86,61 @@ app.on('activate', () => {
     createWindow();
   }
 });
+
+ipcMain.on('readJwtToken', (event, arg) => {
+  try{
+    let token = fs.readFileSync(path.join(getUserHome(), '.rawduck', 'token'), 'utf8');
+    console.log('Read token from app home : ', token);
+    event.returnValue = token;
+  }catch(err){
+    console.log('Token not found in app home, return null!');
+    event.returnValue = null;
+  }
+});
+
+ipcMain.on('writeJwtToken', (event, arg) => {
+  fs.writeFileSync(path.join(getUserHome(), '.rawduck', 'token'), arg);
+  event.returnValue = null;
+});
+
+ipcMain.on('openImportDialog', (event, arg) => {
+  dialog.showOpenDialog({
+    filters: [
+      {name: 'Images', extensions: ['jpg', 'jpeg']},
+      {extensions : ['ARW'], name : 'Sony ARW'},
+      {extensions : ['CR2'], name : 'Canon CR2'},
+      {extensions : ['CRW'], name : 'Canon CRW'},
+      {extensions : ['DCR'], name : 'Kodak DCR'},
+      {extensions : ['DNG'], name : 'Digital Negative'},
+      {extensions : ['ERF'], name : 'Epson ERF'},
+      {extensions : ['K25'], name : 'Kodak K25'},
+      {extensions : ['KDC'], name : 'Kodak KDC'},
+      {extensions : ['MRW'], name : 'Minolta MRW'},
+      {extensions : ['NEF'], name : 'Nikon NEF'},
+      {extensions : ['ORF'], name : 'Olympus ORF'},
+      {extensions : ['PEF'], name : 'Pentax PEF'},
+      {extensions : ['RAF'], name : 'Fuji RAF'},
+      {extensions : ['RAW'], name : 'RAW'},
+      {extensions : ['SR2'], name : 'Sony SR2'},
+      {extensions : ['SRF'], name : 'Sony SRF'},
+      {extensions : ['X3F'], name : 'Sigma X3F'}
+    ],
+    properties: ['openFile', 'multiSelections']
+  }, (filePaths) => {
+    console.log(filePaths);
+  })
+});
+
+const prepareAppHome = () => {
+  createIfNotExist(path.join(getUserHome(), '.rawduck'))
+}
+
+const createIfNotExist = (path) => {
+  if (!fs.existsSync(path)){
+    fs.mkdirSync(path);
+  }
+}
+
+const getUserHome = () => {
+  return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+}
